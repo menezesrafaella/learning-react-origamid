@@ -1,4 +1,5 @@
 import React from 'react';
+import Form from './Form/Form';
 // --------------------------- Aula de JSX - 2 --------------------------------- 
 // const persona = {
 //   client: 'Mario',
@@ -13,55 +14,67 @@ import React from 'react';
 // --------------------------- Aula de JSX - 2 --------------------------------- 
 
 
-// --------------------------- Aula de JSX - Array --------------------------------- 
-// Mostre apenas produtos que forem mais caros que R$ 1500
-const produtos = [
-  {
-    id: 1,
-    nome: 'Smartphone',
-    preco: 'R$ 2000',
-    cores: ['#29d8d5', '#252a34', '#fc3766'],
-  },
-  {
-    id: 2,
-    nome: 'Notebook',
-    preco: 'R$ 3000',
-    cores: ['#ffd045', '#d4394b', '#f37c59'],
-  },
-  {
-    id: 3,
-    nome: 'Tablet',
-    preco: 'R$ 1500',
-    cores: ['#365069', '#47c1c8', '#f95786'],
-  },
-];
 
+const Titulo = ({cor, texto, children}) => {
+  return <h1 style={{color: cor}}>{texto}</h1>
+}
 
 
 const App = () => {
-  const dados = produtos.filter((produto) =>
-    Number(produto.preco.replace('R$ ', '')) > 1500)
-  console.log(dados)
 
   return (
-    <section>
-      {dados.map(({ id, nome, preco, cores }) => (
-        <div key={id}>
-          <h1>{nome}</h1>
-          <p>Preço: {preco} </p>
-          <ul>
-            {cores.map(cor => (
-              <li key={cor} style={{ color: 'white', backgroundColor: cor }}>{cor}</li>
-            ))}
-          </ul>
-        </div>
-      ))}
-
-    </section>
+    <Form />
+    // <div>
+    //   <Titulo cor="red" texto="Meu titulo" />
+    //   <Titulo cor="blue" texto="Meu titulo" />
+    //   <Titulo cor="yellow" texto="Meu titulo"> Children</Titulo>
+    // </div>
   )
 };
 
-// Uma solução:
+// --------------------------- Aula de JSX - Array --------------------------------- 
+// Mostre apenas produtos que forem mais caros que R$ 1500
+// const produtos = [
+//   {
+//     id: 1,
+//     nome: 'Smartphone',
+//     preco: 'R$ 2000',
+//     cores: ['#29d8d5', '#252a34', '#fc3766'],
+//   },
+//   {
+//     id: 2,
+//     nome: 'Notebook',
+//     preco: 'R$ 3000',
+//     cores: ['#ffd045', '#d4394b', '#f37c59'],
+//   },
+//   {
+//     id: 3,
+//     nome: 'Tablet',
+//     preco: 'R$ 1500',
+//     cores: ['#365069', '#47c1c8', '#f95786'],
+//   },
+// ];
+// Primeira solução:
+// const dados = produtos.filter((produto) =>
+// Number(produto.preco.replace('R$ ', '')) > 1500)
+// console.log(dados)
+
+
+// <section>
+//   {dados.map(({ id, nome, preco, cores }) => (
+//     <div key={id}>
+//       <h1>{nome}</h1>
+//       <p>Preço: {preco} </p>
+//       <ul>
+//         {cores.map(cor => (
+//           <li key={cor} style={{ color: 'white', backgroundColor: cor }}>{cor}</li>
+//         ))}
+//       </ul>
+//     </div>
+//   ))}
+
+// </section>
+// Segunda solução:
 // produtos.filter((produto) =>
 //   Number(produto.preco.replace('R$ ', '')) > 1500
 // ).map(produto => (
@@ -76,7 +89,6 @@ const App = () => {
 //   </div>
 // ))}
 
-// --------------------------- Aula de JSX - Array --------------------------------- 
 
 // O JSX necessita de uma key única para cada elemento da Array
 // Ex: <li key="e1">Apple</li>
