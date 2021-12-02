@@ -1,36 +1,49 @@
 import React from 'react';
-import Form from './Form/Form';
-// --------------------------- Aula de JSX - 2 --------------------------------- 
-// const persona = {
-//   client: 'Mario',
-//   age: 31,
-//   shop: [
-//     { name: 'Notebook', price: 'R$ 2500'},
-//     { name: 'Frezzer', price: 'R$ 3000'},
-//     { name: 'Smartphone', price: 'R$ 1500'},
-//   ],
-//   situation: false,
-// }
-// --------------------------- Aula de JSX - 2 --------------------------------- 
+import Header from './Header/Header';
+import Home from './Home/Home';
+import Produtos from './Produtos/Produtos';
 
-
-
-const Titulo = ({cor, texto, children}) => {
-  return <h1 style={{color: cor}}>{texto}</h1>
-}
+// Replique a interface como a apresentada na aula
+// Utilize a array abaixo para mostrar os produtos
+// Quebre em componentes o que precisar ser reutilizado
+// Dica: const { pathname } = window.location; (puxa o caminho do URL)
 
 
 const App = () => {
+  const { pathname } = window.location; 
 
+  let Component;
+  if (pathname === '/produtos') {
+    Component = Produtos 
+    } else {
+    Component = Home
+  }
   return (
-    <Form />
-    // <div>
-    //   <Titulo cor="red" texto="Meu titulo" />
-    //   <Titulo cor="blue" texto="Meu titulo" />
-    //   <Titulo cor="yellow" texto="Meu titulo"> Children</Titulo>
-    // </div>
+    <div>
+     <Header />
+     <Component />
+    </div>
   )
 };
+
+export default App;
+
+// Desafio. Uma solução:
+{/* { <div>
+  { pathname === '/produtos' ? <div><Produtos /></div> : <div><Home /></div> }
+</div>}  */}
+
+
+
+/* --------------------------- Aula sobre propriedades --------------------
+// const Titulo = ({cor, texto, children}) => {
+//   return <h1 style={{color: cor}}>{texto}</h1>
+// }
+
+ { <Titulo cor="red" texto="Meu titulo" />
+<Titulo cor="blue" texto="Meu titulo" />
+<Titulo cor="yellow" texto="Meu titulo"> Children</Titulo> }
+--------------------------- Aula sobre propriedades -------------------- */
 
 // --------------------------- Aula de JSX - Array --------------------------------- 
 // Mostre apenas produtos que forem mais caros que R$ 1500
@@ -124,5 +137,16 @@ const App = () => {
 // className -> class e htmlFor -> for (label)
 // --------------------------- Aula de JSX - 2 --------------------------------- 
 
+// --------------------------- Aula de JSX - 2 --------------------------------- 
+// const persona = {
+//   client: 'Mario',
+//   age: 31,
+//   shop: [
+//     { name: 'Notebook', price: 'R$ 2500'},
+//     { name: 'Frezzer', price: 'R$ 3000'},
+//     { name: 'Smartphone', price: 'R$ 1500'},
+//   ],
+//   situation: false,
+// }
+// --------------------------- Aula de JSX - 2 --------------------------------- 
 
-export default App;
