@@ -1,34 +1,46 @@
-import React from 'react';
-import Header from './Header/Header';
-import Home from './Home/Home';
-import Produtos from './Produtos/Produtos';
+import React, { useState } from 'react';
+import ButtonModal from './ButtonModal';
+import Modal from './Modal';
 
-// Replique a interface como a apresentada na aula
-// Utilize a array abaixo para mostrar os produtos
-// Quebre em componentes o que precisar ser reutilizado
-// Dica: const { pathname } = window.location; (puxa o caminho do URL)
 
 
 const App = () => {
-  const { pathname } = window.location; 
+  // O primeiro valor guarda o dado do estado atual, pode ser qualquer tipo de dado como strings, arrays, números, boolean, null, undefined e objetos. O segundo valor é uma função que pode ser utilizada para modificarmos o estado do primeiro valor.
+  const [modal, setModal] = useState(false)
 
-  let Component;
-  if (pathname === '/produtos') {
-    Component = Produtos 
-    } else {
-    Component = Home
-  }
   return (
     <div>
-     <Header />
-     <Component />
+      <Modal modal={modal} setModal={setModal} />
+      <ButtonModal setModal={setModal} />
     </div>
   )
 };
 
 export default App;
 
-// Desafio. Uma solução:
+{/* <button onClick={() => setAtivo(!ativo)}>{ativo ? 'Ativo' : 'Inativo'}</button> */ }
+
+// Desafio. Primeira solução:
+// Replique a interface como a apresentada na aula
+// Utilize a array abaixo para mostrar os produtos
+// Quebre em componentes o que precisar ser reutilizado
+// Dica: const { pathname } = window.location; (puxa o caminho do URL)
+
+// const { pathname } = window.location; 
+
+// let Component;
+// if (pathname === '/produtos') {
+//   Component = Produtos 
+//   } else {
+//   Component = Home
+// }
+// return (
+//   <div>
+//    <Header />
+//    <Component />
+//   </div>
+// )
+// Desafio. Segunda solução:
 {/* { <div>
   { pathname === '/produtos' ? <div><Produtos /></div> : <div><Home /></div> }
 </div>}  */}
