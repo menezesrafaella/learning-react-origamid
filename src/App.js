@@ -1,6 +1,48 @@
 import React, { useState } from 'react';
 import Produto from './Produto';
 
+// Quando o usuário clicar em um dos botões, faça um fetch do produto clicado utilizando a api abaixo
+// https://ranekapi.origamid.dev/json/api/produto/notebook
+// https://ranekapi.origamid.dev/json/api/produto/smartphone
+// Mostre o nome e preço na tela (separe essa informação em um componente Produto.js)
+// Defina o produto clicado como uma preferência do usuário no localStorage
+// Quando o usuário entrar no site, se existe um produto no localStorage, faça o fetch do mesmo
+
+
+
+const App = () => {
+  const [produto, setProduto] = React.useState(null);
+
+  React.useEffect(() => {
+    const produtoLocal = window.localStorage.getItem('produto');
+    if (produtoLocal !== 'null') setProduto(produtoLocal);
+  }, []);
+
+  React.useEffect(() => {
+    if (produto !== null) window.localStorage.setItem('produto', produto);
+  }, [produto]);
+
+  function handleClick({ target }) {
+    setProduto(target.innerText);
+  }
+
+  return (
+    <div>
+      <h1>Preferência: {produto}</h1>
+      <button style={{ marginRight: '1rem' }} onClick={handleClick}>
+        notebook
+      </button>
+      <button onClick={handleClick}>smartphone</button>
+      <Produto produto={produto} />
+    </div>
+  );
+};
+
+export default App;
+
+// ------------ useEffect ------------------------------
+
+
 // Os links abaixo puxam dados de um produto em formato JSON
 // https://ranekapi.origamid.dev/json/api/produto/tablet
 // https://ranekapi.origamid.dev/json/api/produto/smartphone
@@ -10,34 +52,36 @@ import Produto from './Produto';
 // Mostre apenas um produto por vez
 // Mostre a mensagem carregando... enquanto o fetch é realizado
 
+// Todo componente possui um ciclo de vida. Os principais momentos acontecem quando um componente é renderizado, atualizado ou destruído. com o React
+// useEffect() podemos definir um callback que irá ser executado durante certos momentos de vida do componente
 
 
-const App = () => {
-  const [dados, setDados] = useState(null)
-  const [carregando, setCarregando] = useState(null)
+// --------------------- Use State Desafio ---------------------------------------
 
-  async function handleClick(event) {
+// const App = () => {
+//   const [dados, setDados] = useState(null)
+//   const [carregando, setCarregando] = useState(null)
 
-    const response = await fetch(
-      `https://ranekapi.origamid.dev/json/api/produto/${event.target.innerText}`,
-    );
-    const json = await response.json();
-    setDados(json);
-    setCarregando(false);
-  }
+//   async function handleClick(event) {
 
-  return (
-    <div>
-      <button onClick={handleClick}>Tablet</button>
-      <button onClick={handleClick}>Smartphone</button>
-      <button onClick={handleClick}>Notebook</button>
-      {carregando && <p>Carregando...</p>}
-      {!carregando && dados && <Produto dados={dados} />}
-    </div>
-  )
-};
+//     const response = await fetch(
+//       `https://ranekapi.origamid.dev/json/api/produto/${event.target.innerText}`,
+//     );
+//     const json = await response.json();
+//     setDados(json);
+//     setCarregando(false);
+//   }
 
-export default App;
+//   return (
+//     <div>
+//       <button onClick={handleClick}>Tablet</button>
+//       <button onClick={handleClick}>Smartphone</button>
+//       <button onClick={handleClick}>Notebook</button>
+//       {carregando && <p>Carregando...</p>}
+//       {!carregando && dados && <Produto dados={dados} />}
+//     </div>
+//   )
+// };
 
 // ------------------------ UseState ----------------------------------
 
