@@ -1,6 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
+import GlobalStorage from './GlobalStorage';
 import Produto from './Produto';
 
+// Utilize o GlobalContext do exemplo anterior para puxar os dados da API abaixo:
+// https://ranekapi.origamid.dev/json/api/produto/
+// assim que o usuário acessar o app
+// coloque os dados da API no contexto global, dando acesso aos dados da mesma
+// defina uma função chamada limparDados que é responsável por zerar os dados de produto
+// e exponha essa função no contexto global
+
+
+
+const App = () => {
+
+  return (
+    <GlobalStorage>
+      <Produto />
+    </GlobalStorage>
+
+  );
+};
+
+export default App;
+
+
+// -------------- Use Ref --------
+// Retorna um objeto com a propriedade current. Esse objeto pode ser utilizado para guardarmos valores que irão persistir durante todo o ciclo de vida do elemento.
+// Geralmente usamos o mesmo para se referir a um elemento do DOM, sem precisar utilizar o query selector ou algo similar.
+
+
+
+// ------------ useEffect ------------------------------
 // Quando o usuário clicar em um dos botões, faça um fetch do produto clicado utilizando a api abaixo
 // https://ranekapi.origamid.dev/json/api/produto/notebook
 // https://ranekapi.origamid.dev/json/api/produto/smartphone
@@ -9,38 +39,43 @@ import Produto from './Produto';
 // Quando o usuário entrar no site, se existe um produto no localStorage, faça o fetch do mesmo
 
 
+// Todo componente possui um ciclo de vida. Os principais momentos acontecem quando um componente é renderizado, atualizado ou destruído. com o React
+// useEffect() podemos definir um callback que irá ser executado durante certos momentos de vida do componente
 
-const App = () => {
-  const [produto, setProduto] = React.useState(null);
+// const App = () => {
+//   const [produto, setProduto] = React.useState(null);
 
-  React.useEffect(() => {
-    const produtoLocal = window.localStorage.getItem('produto');
-    if (produtoLocal !== 'null') setProduto(produtoLocal);
-  }, []);
+//   React.useEffect(() => {
+//     const produtoLocal = window.localStorage.getItem('produto');
+//     if (produtoLocal !== 'null') setProduto(produtoLocal);
+//   }, []);
 
-  React.useEffect(() => {
-    if (produto !== null) window.localStorage.setItem('produto', produto);
-  }, [produto]);
+//   React.useEffect(() => {
+//     if (produto !== null) window.localStorage.setItem('produto', produto);
+//   }, [produto]);
 
-  function handleClick({ target }) {
-    setProduto(target.innerText);
-  }
+//   function handleClick({ target }) {
+//     setProduto(target.innerText);
+//   }
 
-  return (
-    <div>
-      <h1>Preferência: {produto}</h1>
-      <button style={{ marginRight: '1rem' }} onClick={handleClick}>
-        notebook
-      </button>
-      <button onClick={handleClick}>smartphone</button>
-      <Produto produto={produto} />
-    </div>
-  );
-};
+//   return (
+//     <div>
+//       <h1>Preferência: {produto}</h1>
+//       <button style={{ marginRight: '1rem' }} onClick={handleClick}>
+//         notebook
+//       </button>
+//       <button onClick={handleClick}>smartphone</button>
+//       <Produto produto={produto} />
+//     </div>
+//   );
+// };
 
-export default App;
+// export default App;
 
-// ------------ useEffect ------------------------------
+
+
+
+// ------------------------------------------------------
 
 
 // Os links abaixo puxam dados de um produto em formato JSON
@@ -52,8 +87,6 @@ export default App;
 // Mostre apenas um produto por vez
 // Mostre a mensagem carregando... enquanto o fetch é realizado
 
-// Todo componente possui um ciclo de vida. Os principais momentos acontecem quando um componente é renderizado, atualizado ou destruído. com o React
-// useEffect() podemos definir um callback que irá ser executado durante certos momentos de vida do componente
 
 
 // --------------------- Use State Desafio ---------------------------------------
