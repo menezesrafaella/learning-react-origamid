@@ -1,5 +1,54 @@
 import React from 'react';
 
+// Otimize o código do slide anterior
+// Utilizando a array abaixo para mostrar
+// cada checkbox na tela.
+
+const coresArray = ['azul', 'roxo', 'laranja', 'verde', 'vermelho', 'cinza'];
+
+
+const App = () => {
+  const [cores, setCores] = React.useState([]);
+
+  function handleChange({ target }) {
+    if (target.checked) {
+      setCores([...cores, target.value]);
+    } else {
+      setCores(cores.filter((cor) => cor !== target.value));
+    }
+  }
+
+  function handleChecked(cor) {
+    return cores.includes(cor);
+  }
+
+  return (
+    <form>
+      {coresArray.map(cor => (
+        <label key={cor} style={{ textTransform: 'capitalize' }}>
+          <input
+            type="checkbox"
+            value={cor}
+            checked={handleChecked(cor)}
+            onChange={handleChange}
+          />
+          {cor}
+        </label>
+      ))}
+      <ul>
+        {cores.map((cor) => (
+          <li key={cor}>{cor}</li>
+        ))}
+      </ul>
+    </form>
+  );
+};
+
+export default App;
+
+
+// ------------------ Input --------------------------------
+
 // Faça um fetch (POST) para a API abaixo
 // Para a criação ser aceita é necessário enviar dodos de:
 // nome, email, senha, cep, rua, numero, bairro, cidade e estado
@@ -8,127 +57,126 @@ import React from 'react';
 // Mostre uma mensagem na tela, caso a resposta da API seja positiva
 
 
-const App = () => {
-  const [form, setForm] = React.useState({
-    nome: '',
-    email: '',
-    senha: '',
-    cep: '',
-    rua: '',
-    numero: '',
-    bairro: '',
-    cidade: '',
-    estado: ''
-  });
+// const App = () => {
+//   const [form, setForm] = React.useState({
+//     nome: '',
+//     email: '',
+//     senha: '',
+//     cep: '',
+//     rua: '',
+//     numero: '',
+//     bairro: '',
+//     cidade: '',
+//     estado: ''
+//   });
 
-  const [response, setResponse] = React.useState(null)
+//   const [response, setResponse] = React.useState(null)
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
 
-    fetch('https://ranekapi.origamid.dev/json/api/usuario', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(form),
-    }).then((response) => {
-      setResponse(response);
-    });
-  }
+//     fetch('https://ranekapi.origamid.dev/json/api/usuario', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(form),
+//     }).then((response) => {
+//       setResponse(response);
+//     });
+//   }
 
-  function handleCepClick(event) {
-    event.preventDefault();
-    fetch(`https://viacep.com.br/ws/${form.cep}/json/`).then(
-      response => {
-        response.json().then(data => {
-          console.log(data)
-          setForm({
-            ...form,
-            rua: data.logradouro,
-            bairro: data.bairro,
-            cidade: data.localidade,
-            estado: data.uf
-          })
-        })
-      });
-  }
+//   function handleCepClick(event) {
+//     event.preventDefault();
+//     fetch(`https://viacep.com.br/ws/${form.cep}/json/`).then(
+//       response => {
+//         response.json().then(data => {
+//           console.log(data)
+//           setForm({
+//             ...form,
+//             rua: data.logradouro,
+//             bairro: data.bairro,
+//             cidade: data.localidade,
+//             estado: data.uf
+//           })
+//         })
+//       });
+//   }
 
 
-  function handleChange({ target }) {
-    const { id, value } = target;
-    setForm({ ...form, [id]: value });
-  }
+//   function handleChange({ target }) {
+//     const { id, value } = target;
+//     setForm({ ...form, [id]: value });
+//   }
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="nome">Nome</label>
-      <input type="text" id="nome" value={form.nome} onChange={handleChange} />
-      <label htmlFor="email">Email</label>
-      <input
-        type="email"
-        id="email"
-        value={form.email}
-        onChange={handleChange}
-      />
-      <label htmlFor="senha">Senha</label>
-      <input
-        type="password"
-        id="senha"
-        value={form.senha}
-        onChange={handleChange}
-      />
-      <label htmlFor="cep">Cep</label>
-      <input
-        type="text"
-        id="cep"
-        value={form.cep}
-        onChange={handleChange}
-      />
-      <button onClick={handleCepClick}>Validar CEP</button>
-      <label htmlFor="rua">Rua</label>
-      <input
-        type="text"
-        id="rua"
-        value={form.rua}
-        onChange={handleChange}
-      />
-      <label htmlFor="numero">Número</label>
-      <input
-        type="number"
-        id="numero"
-        value={form.numero}
-        onChange={handleChange}
-      />
-      <label htmlFor="bairro">Bairro</label>
-      <input
-        type="text"
-        id="bairro"
-        value={form.bairro}
-        onChange={handleChange}
-      />
-      <label htmlFor="cidade">Cidade</label>
-      <input
-        type="text"
-        id="cidade"
-        value={form.cidade}
-        onChange={handleChange}
-      />
-      <label htmlFor="estado">Estado</label>
-      <input
-        type="text"
-        id="estado"
-        value={form.estado}
-        onChange={handleChange}
-      />
-      <button>Enviar</button>
-      {response && response.ok && <p>Usuário Criado</p>}
-    </form>
-  );
-};
+//   return (
+//     <form onSubmit={handleSubmit}>
+//       <label htmlFor="nome">Nome</label>
+//       <input type="text" id="nome" value={form.nome} onChange={handleChange} />
+//       <label htmlFor="email">Email</label>
+//       <input
+//         type="email"
+//         id="email"
+//         value={form.email}
+//         onChange={handleChange}
+//       />
+//       <label htmlFor="senha">Senha</label>
+//       <input
+//         type="password"
+//         id="senha"
+//         value={form.senha}
+//         onChange={handleChange}
+//       />
+//       <label htmlFor="cep">Cep</label>
+//       <input
+//         type="text"
+//         id="cep"
+//         value={form.cep}
+//         onChange={handleChange}
+//       />
+//       <button onClick={handleCepClick}>Validar CEP</button>
+//       <label htmlFor="rua">Rua</label>
+//       <input
+//         type="text"
+//         id="rua"
+//         value={form.rua}
+//         onChange={handleChange}
+//       />
+//       <label htmlFor="numero">Número</label>
+//       <input
+//         type="number"
+//         id="numero"
+//         value={form.numero}
+//         onChange={handleChange}
+//       />
+//       <label htmlFor="bairro">Bairro</label>
+//       <input
+//         type="text"
+//         id="bairro"
+//         value={form.bairro}
+//         onChange={handleChange}
+//       />
+//       <label htmlFor="cidade">Cidade</label>
+//       <input
+//         type="text"
+//         id="cidade"
+//         value={form.cidade}
+//         onChange={handleChange}
+//       />
+//       <label htmlFor="estado">Estado</label>
+//       <input
+//         type="text"
+//         id="estado"
+//         value={form.estado}
+//         onChange={handleChange}
+//       />
+//       <button>Enviar</button>
+//       {response && response.ok && <p>Usuário Criado</p>}
+//     </form>
+//   );
+// };
 
-export default App;
-
+// export default App;
 
 // ------------ Use Memo -------------
 
