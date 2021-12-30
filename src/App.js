@@ -1,6 +1,136 @@
 import React from 'react';
-import GlobalStorage from './GlobalStorage';
-import Produto from './Produto';
+
+// Faça um fetch (POST) para a API abaixo
+// Para a criação ser aceita é necessário enviar dodos de:
+// nome, email, senha, cep, rua, numero, bairro, cidade e estado
+
+// Essa é a função utilizado para realizar o POST
+// Mostre uma mensagem na tela, caso a resposta da API seja positiva
+
+
+const App = () => {
+  const [form, setForm] = React.useState({
+    nome: '',
+    email: '',
+    senha: '',
+    cep: '',
+    rua: '',
+    numero: '',
+    bairro: '',
+    cidade: '',
+    estado: ''
+  });
+
+  const [response, setResponse] = React.useState(null)
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    fetch('https://ranekapi.origamid.dev/json/api/usuario', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(form),
+    }).then((response) => {
+      setResponse(response);
+    });
+  }
+
+  function handleCepClick(event) {
+    event.preventDefault();
+    fetch(`https://viacep.com.br/ws/${form.cep}/json/`).then(
+      response => {
+        response.json().then(data => {
+          console.log(data)
+          setForm({
+            ...form,
+            rua: data.logradouro,
+            bairro: data.bairro,
+            cidade: data.localidade,
+            estado: data.uf
+          })
+        })
+      });
+  }
+
+
+  function handleChange({ target }) {
+    const { id, value } = target;
+    setForm({ ...form, [id]: value });
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="nome">Nome</label>
+      <input type="text" id="nome" value={form.nome} onChange={handleChange} />
+      <label htmlFor="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        value={form.email}
+        onChange={handleChange}
+      />
+      <label htmlFor="senha">Senha</label>
+      <input
+        type="password"
+        id="senha"
+        value={form.senha}
+        onChange={handleChange}
+      />
+      <label htmlFor="cep">Cep</label>
+      <input
+        type="text"
+        id="cep"
+        value={form.cep}
+        onChange={handleChange}
+      />
+      <button onClick={handleCepClick}>Validar CEP</button>
+      <label htmlFor="rua">Rua</label>
+      <input
+        type="text"
+        id="rua"
+        value={form.rua}
+        onChange={handleChange}
+      />
+      <label htmlFor="numero">Número</label>
+      <input
+        type="number"
+        id="numero"
+        value={form.numero}
+        onChange={handleChange}
+      />
+      <label htmlFor="bairro">Bairro</label>
+      <input
+        type="text"
+        id="bairro"
+        value={form.bairro}
+        onChange={handleChange}
+      />
+      <label htmlFor="cidade">Cidade</label>
+      <input
+        type="text"
+        id="cidade"
+        value={form.cidade}
+        onChange={handleChange}
+      />
+      <label htmlFor="estado">Estado</label>
+      <input
+        type="text"
+        id="estado"
+        value={form.estado}
+        onChange={handleChange}
+      />
+      <button>Enviar</button>
+      {response && response.ok && <p>Usuário Criado</p>}
+    </form>
+  );
+};
+
+export default App;
+
+
+// ------------ Use Memo -------------
 
 // Utilize o GlobalContext do exemplo anterior para puxar os dados da API abaixo:
 // https://ranekapi.origamid.dev/json/api/produto/
@@ -9,21 +139,19 @@ import Produto from './Produto';
 // defina uma função chamada limparDados que é responsável por zerar os dados de produto
 // e exponha essa função no contexto global
 
+// const App = () => {
+//   const [contar, setContar] = React.useState(0);
+//   const valor = React.useMemo(() => {
+//     const localStorageItem = window.localStorage.getItem('produto');
+//     // só será executado uma vez
+//     console.log('teste');
+//     return localStorageItem;
+//   }, []);
+//   console.log(valor);
 
-
-const App = () => {
-
-  return (
-    <GlobalStorage>
-      <Produto />
-    </GlobalStorage>
-
-  );
-};
-
-export default App;
-
-
+//   return <button onClick={() => setContar(contar + 1)}>{valor}</button>;
+// };
+// export default App;
 // -------------- Use Ref --------
 // Retorna um objeto com a propriedade current. Esse objeto pode ser utilizado para guardarmos valores que irão persistir durante todo o ciclo de vida do elemento.
 // Geralmente usamos o mesmo para se referir a um elemento do DOM, sem precisar utilizar o query selector ou algo similar.
